@@ -6,7 +6,7 @@ from jax import random as jran
 from ..sample_shamnet_param_space import DEFAULT_SCHECHTER_PARAMS, _schechter
 from ..sample_shamnet_param_space import LOG_SMF_TOL, LOGSM_TARGET, _schechter_vmap
 import numpy as np
-from jax.experimental import optimizers as jax_opt
+from jax.example_libraries import optimizers as jax_opt
 from ..sham_network import get_sham_network, _mse
 from ..load_shamnet_traindata import load_initializer_tdata_and_vdata
 from ..jaxnn_helpers import data_stream

@@ -1,22 +1,36 @@
 """
 """
+
 import os
 from collections import namedtuple
+
+from jax import grad
 from jax import jit as jjit
 from jax import numpy as jnp
-from jax import ops as jops
-from jax import vmap, grad, value_and_grad
-from .jaxnn_helpers import get_network, load_network_from_h5
-from .jaxnn_helpers import _unscale_traindata, _unit_scale_traindata
-from .shmf_planck import _calculate_lgnd_from_lgcnd, _log10_cumulative_shmf
-from .shmf_planck import _get_shmf_params_at_z
-from .generate_shamnet_traindata import X_MINS, X_MAXS, FIXED_REDSHIFT
-from .shamnet_traindata import _scatter_model, predict_smf_from_smf_param_batch
-from .shamnet_traindata import predict_ln_smf_grads_from_params
-from .smf_scatter_convolution import add_scatter_to_true_smf
-from .smf_scatter_convolution import _add_scatter_to_true_smf_bin_i
-from .utils import lupton_log10
+from jax import value_and_grad, vmap
 
+from .generate_shamnet_traindata import FIXED_REDSHIFT, X_MAXS, X_MINS
+from .jaxnn_helpers import (
+    _unit_scale_traindata,
+    _unscale_traindata,
+    get_network,
+    load_network_from_h5,
+)
+from .shamnet_traindata import (
+    _scatter_model,
+    predict_ln_smf_grads_from_params,
+    predict_smf_from_smf_param_batch,
+)
+from .shmf_planck import (
+    _calculate_lgnd_from_lgcnd,
+    _get_shmf_params_at_z,
+    _log10_cumulative_shmf,
+)
+from .smf_scatter_convolution import (
+    _add_scatter_to_true_smf_bin_i,
+    add_scatter_to_true_smf,
+)
+from .utils import lupton_log10
 
 SHAMNET11_dim_in, SHAMNET11_dim_out = 5, 1
 LOGSM_PRED_MIN = -5.0
@@ -342,11 +356,11 @@ def _pack_Xtrain(smf_params, scatter_params, logmh_table, x_mins, x_maxs):
     n_mh = logmh_table.size
     dim_in = smf_params.size + scatter_params.size + 1
     X = jnp.zeros((n_mh, dim_in))
-    X = jops.index_update(X, jops.index[:, 0], smf_params[0])
-    X = jops.index_update(X, jops.index[:, 1], smf_params[1])
-    X = jops.index_update(X, jops.index[:, 2], scatter_params[0])
-    X = jops.index_update(X, jops.index[:, 3], scatter_params[1])
-    X = jops.index_update(X, jops.index[:, 4], logmh_table)
+    X = X.at[:, 0].set(smf_params[0])
+    X = X.at[:, 1].set(smf_params[1])
+    X = X.at[:, 2].set(scatter_params[0])
+    X = X.at[:, 3].set(scatter_params[1])
+    X = X.at[:, 4].set(logmh_table)
     return _unit_scale_traindata(X, x_mins, x_maxs)
 
 

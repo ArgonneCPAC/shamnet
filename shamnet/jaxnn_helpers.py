@@ -1,7 +1,7 @@
 """Convenience functions wrapping the behavior of jax.stax"""
 import h5py
 import numpy as np
-from jax.experimental import stax
+from jax.example_libraries import stax
 from jax import numpy as jnp
 from jax import jit as jjit
 from copy import deepcopy
