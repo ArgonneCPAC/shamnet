@@ -97,7 +97,7 @@ def test_smhm_returns_finite_default_params():
 
 
 def test_flux_factor_kern_rando_is_well_behaved():
-    """The smhm_kernel_u_params function should return sensible values for random params"""
+    """smhm_kernel_u_params should return sensible values for random params"""
     ran_key = jran.key(0)
     wave = np.logspace(0, 10, 100)
     n_params = len(tsm.DEFAULT_PARAMS)
