@@ -3,7 +3,7 @@
 import numpy as np
 from jax import jit as jjit
 from jax import value_and_grad
-from jax.experimental import optimizers as jax_opt
+from jax.example_libraries import optimizers as jax_opt
 from jax import numpy as jnp
 
 
@@ -230,5 +230,5 @@ def lupton_log10(t, log10_clip, t0=0.0, M0=0.0, alpha=1 / jnp.log(10.0)):
     lup : ndarray of shape (n, )
 
     """
-    k = 10.0 ** log10_clip
+    k = 10.0**log10_clip
     return M0 + alpha * (jnp.arcsinh((t - t0) / (2 * k)) + jnp.log(k))
