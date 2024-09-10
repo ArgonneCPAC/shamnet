@@ -96,7 +96,7 @@ def test_smhm_returns_finite_default_params():
     assert np.all(logsm > 3)
 
 
-def test_flux_factor_kern_rando_is_well_behaved():
+def test_smhm_returns_finite_rando_params():
     """smhm_kernel_u_params should return sensible values for random params"""
     ran_key = jran.key(0)
     wave = np.logspace(0, 10, 100)
