@@ -40,7 +40,8 @@ jobs:
             jaxlib>=0.1.45 \
             pytest-runner \
             "halotools>=0.7" \
-            "astropy>=4"
+            "astropy>=4" \
+            h5py
 
           pip install AbundanceMatching
           pip install pydoe2
